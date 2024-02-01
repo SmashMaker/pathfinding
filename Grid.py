@@ -65,8 +65,12 @@ class Grid:
             6: "🟣"
         }
 
+        to_print = ""
         for line in grid_to_print:
-            print("".join([number_to_emoji[x] for x in line]))
+            to_print += "".join([number_to_emoji[x] for x in line]) + "▫️️\r\n"
+
+        print("\033[H\033[J")
+        print(to_print)
 
     def getCase(self, x, y):
         return self.grid[y][x]
@@ -92,3 +96,15 @@ class Grid:
         for location in path:
             copy_grid[location[1]][location[0]] = self.possible_cases["path cell"]
         self.printGrid(copy_grid)
+
+    def getNeighbors(self, x, y):
+        neighbors = []
+        if x > 0:
+            neighbors.append([x-1, y])
+        if x < self.width-1:
+            neighbors.append([x+1, y])
+        if y > 0:
+            neighbors.append([x, y-1])
+        if y < self.height-1:
+            neighbors.append([x, y+1])
+        return neighbors
