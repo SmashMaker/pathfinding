@@ -87,7 +87,7 @@ class Grid:
         for y in range(self.height):
             for x in range(self.width):
                 if self.grid[y][x] == casetofind:
-                    return [x, y]
+                    return (x, y)
 
         return None
 
@@ -108,3 +108,6 @@ class Grid:
         if y < self.height-1:
             neighbors.append([x, y+1])
         return neighbors
+
+    def copy(self):
+        return Grid([x.copy() for x in self.grid], self.possible_cases)
