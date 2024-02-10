@@ -1,5 +1,5 @@
 import Grid
-import DFS
+import BFS,DFS
 import test_maze
 
 
@@ -26,10 +26,11 @@ mazes = {
 }
 
 algoritms_to_test = {
+    "BFS": BFS.solve,
     "DFS": DFS.solve
 }
 
-print("Testing simple mazes")
+print("Testing mazes")
 
 for algoritm in algoritms_to_test:
     print(f"\nTesting {algoritm} : ")
