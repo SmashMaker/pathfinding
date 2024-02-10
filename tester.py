@@ -1,5 +1,5 @@
 import Grid
-import BFS,DFS
+import BFS,DFS,Astar
 import test_maze
 
 
@@ -27,7 +27,8 @@ mazes = {
 
 algoritms_to_test = {
     "BFS": BFS.solve,
-    "DFS": DFS.solve
+    "DFS": DFS.solve,
+    "Astar": Astar.solve
 }
 
 print("Testing mazes")

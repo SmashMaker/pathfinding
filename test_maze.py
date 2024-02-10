@@ -9,6 +9,14 @@
         - 6 : current cell
 """
 
+def get_nb_of_case(maze,case_type):
+    counter = 0
+    for i in maze:
+        for j in maze:
+            if j == case_type:
+                counter +=1
+    return counter
+
 simple_maze_1 = [
     [1,1,1,1,1],
     [1,2,1,3,1],
@@ -16,15 +24,7 @@ simple_maze_1 = [
     [1,0,0,0,1],
     [1,1,1,1,1]
 ]
-simple_maze_1_way = [
-    (1,1),
-    (1,2),
-    (1,3),
-    (2,3),
-    (3,3),
-    (3,2),
-    (3,1)
-]
+simple_maze_1_way = [(1,1),(1,2),(1,3),(2,3),(3,3),(3,2),(3,1)]
 
 
 simple_maze_2 = [
@@ -34,13 +34,7 @@ simple_maze_2 = [
     [1,0,0,3,1],
     [1,1,1,1,1]
 ]
-simple_maze_2_way = [
-    (1,1),
-    (1,2),
-    (1,3),
-    (2,3),
-    (3,3)
-]
+simple_maze_2_way = [(1,1),(1,2),(1,3),(2,3),(3,3)]
 
 
 simple_maze_3 = [
@@ -50,28 +44,23 @@ simple_maze_3 = [
     [1,0,0,3,1],
     [1,1,1,1,1]
 ]
-simple_maze_3_way = [
-    (3,1),
-    (2,1),
-    (1,1),
-    (1,2),
-    (1,3),
-    (2,3),
-    (3,3)
-]
+simple_maze_3_way = [(3,1),(2,1),(1,1),(1,2),(1,3),(2,3),(3,3)]
 
 simple_mazes = {
     "simple_maze_1": {
         "grid": simple_maze_1,
-        "way": simple_maze_1_way
+        "way": simple_maze_1_way,
+        "nb_case": get_nb_of_case(simple_maze_1, 0)
     },
     "simple_maze_2": {
         "grid": simple_maze_2,
-        "way": simple_maze_2_way
+        "way": simple_maze_2_way,
+        "nb_case": get_nb_of_case(simple_maze_2, 0)
     },
     "simple_maze_3": {
         "grid": simple_maze_3,
-        "way": simple_maze_3_way
+        "way": simple_maze_3_way,
+        "nb_case": get_nb_of_case(simple_maze_3, 0)
     }
 }
 
@@ -88,42 +77,13 @@ normal_maze_1 = [
     [1,0,0,0,0,0,0,0,3,1],
     [1,1,1,1,1,1,1,1,1,1]
 ]
-normal_maze_1_way = [
-    (1, 1),
-    (2, 1),
-    (3, 1),
-    (4, 1),
-    (5, 1),
-    (6, 1),
-    (7, 1),
-    (8, 1),
-    (8, 2),
-    (8, 3),
-    (7, 3),
-    (6, 3),
-    (6, 4),
-    (6, 5),
-    (6, 6),
-    (5, 6),
-    (4, 6),
-    (3, 6),
-    (2, 6),
-    (1, 6),
-    (1, 7),
-    (1, 8),
-    (2, 8),
-    (3, 8),
-    (4, 8),
-    (5, 8),
-    (6, 8),
-    (7, 8),
-    (8, 8)
-]
+normal_maze_1_way = [(1, 1),(2, 1),(3, 1),(4, 1),(5, 1),(6, 1),(7, 1),(8, 1),(8, 2),(8, 3),(7, 3),(6, 3),(6, 4),(6, 5),(6, 6),(5, 6),(4, 6),(3, 6),(2, 6),(1, 6),(1, 7),(1, 8),(2, 8),(3, 8),(4, 8),(5, 8),(6, 8),(7, 8),(8, 8)]
 
 normal_mazes = {
     "normal_maze_1": {
         "grid": normal_maze_1,
-        "way": normal_maze_1_way
+        "way": normal_maze_1_way,
+        "nb_case": get_nb_of_case(normal_maze_1, 0)
     }
 }
 
@@ -143,19 +103,23 @@ hard_maze_4_way = [(1, 1), (1, 2), (1, 3), (2, 3), (3, 3), (3, 4), (3, 5), (2, 5
 hard_mazes = {
     "hard_maze_1": {
         "grid": hard_maze_1,
-        "way" : hard_maze_1_way
+        "way" : hard_maze_1_way,
+        "nb_case": get_nb_of_case(hard_maze_1,0)
     },
     "hard_maze_2": {
         "grid": hard_maze_2,
-        "way" : hard_maze_2_way
+        "way" : hard_maze_2_way,
+        "nb_case": get_nb_of_case(hard_maze_2,0)
     },
     "hard_maze_3": {
         "grid": hard_maze_3,
-        "way" : hard_maze_3_way
+        "way" : hard_maze_3_way,
+        "nb_case": get_nb_of_case(hard_maze_3,0)
     },
     "hard_maze_4": {
         "grid": hard_maze_4,
-        "way" : hard_maze_4_way
+        "way" : hard_maze_4_way,
+        "nb_case": get_nb_of_case(hard_maze_4,0)
     },
 }
 
