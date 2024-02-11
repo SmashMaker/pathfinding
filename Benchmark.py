@@ -31,19 +31,19 @@ generator_to_use = {
 
 size_spaces = {
     "labyrinthes": {
-        "simple": (50,50),
-        "normal": (100,100),
-        "hard": (200,200)
+        "simple": (30,30),
+        "normal": (80,80),
+        "hard": (150,150)
     },
     "open_spaces": {
-        "simple": (50,50),
-        "normal": (100,100),
-        "hard": (200,200)
+        "simple": (30,30),
+        "normal": (80,80),
+        "hard": (150,150)
     },
     "close_spaces": {
-        "simple": (50,50),
-        "normal": (100,100),
-        "hard": (200,200)
+        "simple": (30,30),
+        "normal": (80,80),
+        "hard": (150,150)
     }
 }
 
@@ -168,9 +168,7 @@ def test_all(algorithms, mazeobjoriginal):
         results[algorithm] = test_one_algorithm(algorithms[algorithm], mazeobjoriginal)
     return results
 
-nb_spaces = 10
 
-#generate_all(generator_to_use, size_spaces, nb_spaces)
 
 """maze = import_2D_array_from_file("saved_spaces/close_spaces/hard/space_0.txt")
 mazeobj = Grid.Grid(maze, possible_cases)
@@ -178,16 +176,11 @@ mazeobj.printGrid()"""
 
 #print(test_all(algoritms_to_test, mazeobj))
 
-# Test all the algorithms in the folder (go through all the files)
-base_folder = "saved_spaces\\"
 
-# Get all directories in the base folder
-categories_dirs = [f.path for f in os.scandir(base_folder) if f.is_dir()]
 
 def add_results_csv(results, file_name):
     # Result is a tuple with (category, difficulty, results)
     with open(file_name, "a") as file:
-        print(results)
         for item in results:
             if type(item) == dict:
                 # Don't care about the key, just the values
@@ -199,12 +192,21 @@ def add_results_csv(results, file_name):
                 file.write(item + ",")
         file.write("\n")
 
+"""
+# Test all the algorithms in the folder (go through all the files)
+base_folder = "saved_spaces\\"
+
+# Get all directories in the base folder
+categories_dirs = [f.path for f in os.scandir(base_folder) if f.is_dir()]
 
 if os.path.exists("results.csv"):
     os.remove("results.csv")
 
 with open("results.csv", "w") as file:
     file.write("Category,Difficulty,BFS Time,BFS Path cells,BFS Visited cells,BFS Total usable cells,DFS Time,DFS Path cells,DFS Visited cells,DFS Total usable cells,Astar Time,Astar Path cells,Astar Visited cells,Astar Total usable cells,Dijkstra Time,Dijkstra Path cells,Dijkstra Visited cells,Dijkstra Total usable cells\n")
+
+print("Testing all the spaces")
+all_timer = time.time()
 
 for category_dir in categories_dirs:
     # Get difficulties
@@ -216,6 +218,8 @@ for category_dir in categories_dirs:
     for difficulty_dir in difficulties_dir:
         # Get the difficulty name
         difficulty = difficulty_dir.split("\\")[-1]
+
+        print(f"\tTesting {category} {difficulty}")
 
         # Get all the grids in the difficulty folder
         grids_files = [f.path for f in os.scandir(difficulty_dir) if f.is_file()]
@@ -230,5 +234,143 @@ for category_dir in categories_dirs:
 
             # Save the results in a csv file
             add_results_csv((category, difficulty, results), "results.csv")
-        break
-    break
+
+print("All the tests have been done in " + str(round(time.time() - all_timer, 1)) + " seconds")"""
+
+def process_and_save_all_results(algoritms_to_test, possible_cases, base_folder="saved_spaces\\", save_file="results.csv"):
+    if os.path.exists(save_file):
+        os.remove(save_file)
+
+    with open(save_file, "w") as file:
+        file.write(
+            "Category,Difficulty,BFS Time,BFS Path cells,BFS Visited cells,BFS Total usable cells,DFS Time,DFS Path cells,DFS Visited cells,DFS Total usable cells,Astar Time,Astar Path cells,Astar Visited cells,Astar Total usable cells,Dijkstra Time,Dijkstra Path cells,Dijkstra Visited cells,Dijkstra Total usable cells\n")
+
+    categories_dirs = [f.path for f in os.scandir(base_folder) if f.is_dir()]
+
+    print("Testing all the spaces")
+    all_timer = time.time()
+
+    for category_dir in categories_dirs:
+        # Get difficulties
+        difficulties_dir = [f.path for f in os.scandir(category_dir) if f.is_dir()]
+
+        # Get the category name
+        category = category_dir.split("\\")[-1]
+
+        for difficulty_dir in difficulties_dir:
+            # Get the difficulty name
+            difficulty = difficulty_dir.split("\\")[-1]
+
+            print(f"\tTesting {category} {difficulty}")
+
+            # Get all the grids in the difficulty folder
+            grids_files = [f.path for f in os.scandir(difficulty_dir) if f.is_file()]
+
+            for grid_file in grids_files:
+                # Get the grid
+                grid = import_2D_array_from_file(grid_file)
+                gridobj = Grid.Grid(grid, possible_cases)
+
+                # Test all the algorithms
+                results = test_all(algoritms_to_test, gridobj)
+
+                # Save the results in a csv file
+                add_results_csv((category, difficulty, results), "results.csv")
+
+    print("All the tests have been done in " + str(round(time.time() - all_timer, 1)) + " seconds")
+
+
+nb_spaces = 10
+
+#generate_all(generator_to_use, size_spaces, nb_spaces)
+
+#process_and_save_all_results(algoritms_to_test, possible_cases, base_folder="saved_spaces\\", save_file="results.csv")
+
+# PROCESS THE RESULTS
+# Get the average values for each category and difficulty for each algorithm
+counter = {
+    "BFS": [],
+    "DFS": [],
+    "Astar": [],
+    "Dijkstra": []
+}
+categories = ["labyrinthes", "open_spaces", "close_spaces"]
+difficulties = ["simple", "normal", "hard"]
+
+with open("backup_results.csv", "r") as file:
+    for line in file:
+        line = line.split(",")
+
+        if line[0] == "Category":
+            continue
+
+        line = line[:-1] if line[-1] == "\n" else line
+        category = line.pop(0)
+        difficulty = line.pop(0)
+
+        # Algorithm index is 0:4 (BFS), 4:8 (DFS), 8:12 (Astar), 12:16 (Dijkstra)
+        for i in range(4):
+            counter[list(algoritms_to_test.keys())[i]].append([category, difficulty, line[i*4:i*4+4]])
+
+# Print dict
+for key in counter:
+    print(key)
+    for item in counter[key]:
+        print("\t",item)
+
+    print(len(counter[key]))
+
+
+
+def get_average(results):
+    average = [0,0,0,0]
+    for item in results:
+        for i in range(4):
+            average[i] += float(item[i])
+    for i in range(4):
+        average[i] /= len(results)
+    return average
+
+
+def get_stats(counter, choosed_algorithm, choosed_category, choosed_difficulty):
+    results = []
+    for item in counter[choosed_algorithm]:
+        if item[0] == choosed_category and item[1] == choosed_difficulty:
+            results.append(item[2])
+
+    return get_average(results)
+
+stats = get_stats(counter, "BFS", "labyrinthes", "simple")
+print(stats)
+
+def get_all_stats(counter, choosed_algorithm):
+    stats = {}
+    for category in categories:
+        stats[category] = {}
+        for difficulty in difficulties:
+            stats[category][difficulty] = get_stats(counter, choosed_algorithm, category, difficulty)
+    return stats
+
+stats_BFS = get_all_stats(counter, "BFS")
+stats_DFS = get_all_stats(counter, "DFS")
+stats_Astar = get_all_stats(counter, "Astar")
+stats_Dijkstra = get_all_stats(counter, "Dijkstra")
+
+# Save all the stats in a csv file
+with open("stats.csv", "w") as file:
+    file.write("Category,Difficulty,BFS Time,BFS Path cells,BFS Visited cells,BFS Total usable cells,DFS Time,DFS Path cells,DFS Visited cells,DFS Total usable cells,Astar Time,Astar Path cells,Astar Visited cells,Astar Total usable cells,Dijkstra Time,Dijkstra Path cells,Dijkstra Visited cells,Dijkstra Total usable cells\n")
+
+    for category in categories:
+        for difficulty in difficulties:
+            file.write(category + "," + difficulty + ",")
+            for i in range(4):
+                file.write(str(stats_BFS[category][difficulty][i]) + ",")
+            for i in range(4):
+                file.write(str(stats_DFS[category][difficulty][i]) + ",")
+            for i in range(4):
+                file.write(str(stats_Astar[category][difficulty][i]) + ",")
+            for i in range(4):
+                file.write(str(stats_Dijkstra[category][difficulty][i]) + ",")
+            file.write("\n")
+
+

@@ -221,7 +221,7 @@ def show_maze(maze_list: list[list[int]], invert_colors=False):
         print()
 
 
-def create_maze(width=WIDTH, height=HEIGHT, make_complex=False, visualize=VISUALIZE):
+def create_maze(width=WIDTH, height=HEIGHT, make_complex=True, visualize=VISUALIZE):
     """
     Create a maze using the recursive backtracking algorithm
     ---------------------------------
