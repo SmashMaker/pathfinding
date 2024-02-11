@@ -29,7 +29,7 @@ def solve(gridobjoriginal: Grid, step_by_step=False):
     paths = [[current]]
 
     # Get useless neighbors (get their number)
-    useless_neighbors = ["Indescructible wall", "visited cell", "path cell", "wall", "current cell", "start"]
+    useless_neighbors = ["Indestructible wall", "visited cell", "path cell", "wall", "current cell", "start"]
     for key in useless_neighbors:
         useless_neighbors[useless_neighbors.index(key)] = gridobj.possible_cases[key]
 
@@ -57,6 +57,9 @@ def solve(gridobjoriginal: Grid, step_by_step=False):
                 if neighbor[2] == gridobj.possible_cases["end"]:
                     is_searching = False
                     path.append((neighbor[0], neighbor[1]))
+                    for location in path:
+                        if location != start and location != end:
+                            gridobj.setCase(location[0], location[1], "path cell")
                     return path, gridobj
 
             if not is_searching:

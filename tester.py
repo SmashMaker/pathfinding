@@ -4,7 +4,7 @@ import test_maze
 
 
 possible_cases = {
-    "Indescructible wall": -1,
+    "Indestructible wall": -1,
     "empty cell": 0,
     "wall": 1,
     "start": 2,

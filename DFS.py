@@ -16,7 +16,7 @@ def solve(gridobjoriginal: Grid, step_by_step = False):
     path = [current]
 
     # Get useless neighbors
-    useless_neighbors = ["Indescructible wall", "visited cell", "path cell", "wall"]
+    useless_neighbors = ["Indestructible wall", "visited cell", "path cell", "wall"]
     for key in useless_neighbors:
         useless_neighbors[useless_neighbors.index(key)] = gridobj.possible_cases[key]
 
@@ -76,6 +76,9 @@ def solve(gridobjoriginal: Grid, step_by_step = False):
         current = (chosen_way[0], chosen_way[1])
         path.append(current)
         gridobj.setCase(current[0], current[1], "current cell")
+    # Reput start and end
+    gridobj.setCase(start[0], start[1], "start")
+    gridobj.setCase(end[0], end[1], "end")
     return path, gridobj
 
 
