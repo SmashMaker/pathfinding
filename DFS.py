@@ -4,8 +4,10 @@ def solve(gridobjoriginal: Grid, step_by_step = False):
 
     gridobj = gridobjoriginal.copy()
 
+    """
     if step_by_step:
         paths = []
+    """
 
     start = gridobj.findCase("start")
     end = gridobj.findCase("end")
@@ -20,10 +22,12 @@ def solve(gridobjoriginal: Grid, step_by_step = False):
 
     is_searching = True
     while is_searching:
+        """
         # Store the path if needed
         if step_by_step:
             paths.append(path)
             paths[-1].append(current)
+        """
 
         # Get neighbors coordinates and cases types
         neighbors_without_info = gridobj.getNeighbors(current[0], current[1])
@@ -52,13 +56,13 @@ def solve(gridobjoriginal: Grid, step_by_step = False):
         if nb_possible_way == 0:
             gridobj.setCase(current[0], current[1], "visited cell")
             path.pop()
+
+            if path == []:
+                return None
+
             current = path[-1]
             gridobj.setCase(current[0], current[1], "current cell")
 
-            if len(path) == 0:
-                print("No way to the end")
-                is_searching = False
-                break
             continue
 
         # Pick a possible way (randomly if there is more than one)

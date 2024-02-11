@@ -61,7 +61,8 @@ def solve(gridobjoriginal: Grid, step_by_step = False):
 
     is_searching = True
     while is_searching:
-
+        if not open_list:
+            return None
         #gridobj.printGrid()
         current_index = find_lowest_F(open_list)
         current = open_list.pop(current_index)
