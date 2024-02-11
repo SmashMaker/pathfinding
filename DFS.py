@@ -58,7 +58,7 @@ def solve(gridobjoriginal: Grid, step_by_step = False):
             path.pop()
 
             if path == []:
-                return None
+                return None, gridobj
 
             current = path[-1]
             gridobj.setCase(current[0], current[1], "current cell")
@@ -76,6 +76,6 @@ def solve(gridobjoriginal: Grid, step_by_step = False):
         current = (chosen_way[0], chosen_way[1])
         path.append(current)
         gridobj.setCase(current[0], current[1], "current cell")
-    return path
+    return path, gridobj
 
 

@@ -51,7 +51,7 @@ for algoritm in algoritms_to_test:
             mazeobj = Grid.Grid(grid, possible_cases)
 
             # Run the algoritm
-            result = algoritms_to_test[algoritm](mazeobj)
+            result,gridobj = algoritms_to_test[algoritm](mazeobj)
 
             # Check if the result is correct
             if result != path:

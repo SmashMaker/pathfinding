@@ -57,7 +57,7 @@ def solve(gridobjoriginal: Grid, step_by_step=False):
                 if neighbor[2] == gridobj.possible_cases["end"]:
                     is_searching = False
                     path.append((neighbor[0], neighbor[1]))
-                    return path
+                    return path, gridobj
 
             if not is_searching:
                 break
@@ -91,4 +91,4 @@ def solve(gridobjoriginal: Grid, step_by_step=False):
 
         # Break if there are no paths left to explore
         if not paths:
-            return None
+            return None, gridobj

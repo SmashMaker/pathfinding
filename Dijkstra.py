@@ -63,4 +63,10 @@ def solve(gridobjoriginal: Grid, step_by_step=False):
     # Reconstruct the shortest path from start to goal
     path = reconstruct_path(previous_nodes, start, end)
 
-    return path
+    # Set all empty cells to visited cells
+    for x in range(gridobj.width):
+        for y in range(gridobj.height):
+            if gridobj.getCase(x, y) == gridobj.possible_cases['empty cell']:
+                gridobj.setCase(x, y, 'visited cell')
+
+    return path, gridobj

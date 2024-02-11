@@ -62,8 +62,7 @@ def solve(gridobjoriginal: Grid, step_by_step = False):
     is_searching = True
     while is_searching:
         if not open_list:
-            return None
-        #gridobj.printGrid()
+            return None, gridobj
         current_index = find_lowest_F(open_list)
         current = open_list.pop(current_index)
 
@@ -101,7 +100,7 @@ def solve(gridobjoriginal: Grid, step_by_step = False):
 
 
     if not open_list:
-        return None
+        return None, gridobj
 
     else:
         # The goal is reached; backtrack to find the path
@@ -125,4 +124,4 @@ def solve(gridobjoriginal: Grid, step_by_step = False):
             if gridobj.getCase(coords[0], coords[1]) not in [gridobj.possible_cases['start'], gridobj.possible_cases['end']]:
                 gridobj.setCase(coords[0], coords[1], 'path cell')
 
-    return path
+    return path, gridobj
